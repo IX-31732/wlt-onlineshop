@@ -1,0 +1,89 @@
+spring:
+  application:
+    name: onlineshop
+  datasource:
+    url: jdbc:mysql://8.148.152.84:3306/onlineshop?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 3584936335@qq.com
+    password: zlfkegwnczlvchji
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  web:
+    resources:
+      static-locations: classpath:/static/,file:./uploads/
+      cache:
+        cachecontrol:
+          max-age: 3600
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false  #允许空bean序列化
+      indent-output: true        #格式化输出，便于调试
+      write-dates-as-timestamps: true
+    deserialization:
+      fail-on-unknown-properties: false
+    default-property-inclusion: NON_NULL  #不序列化null值
+    stream-write-constraints:
+      max-nesting-depth: 2000
+      max-string-length: 5000000
+      max-number-length: 1000
+
+  sql:
+    init:
+      mode: never
+      platform: mysql
+
+server:
+  port: 8080
+  servlet:
+    session:
+      timeout: 1800
+      cookie:
+        name: SESSION
+        http-only: true
+        secure: false
+        same-site: lax
+
+logging:
+  level:
+    com.onlineshop.onlineshop: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    com.fasterxml.jackson.databind: DEBUG
+  file:
+    name: logs/onlineshop.log
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n"
+
+#文件上传配置
+file:
+  upload:
+    path: ./uploads/
+    max-size: 10MB
+    avatar-dir: avatars/
+    product-dir: products/
